@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block title %}{% endblock %}</title>
+</head>
+<body>
+    {% if method == 'GET'%}
+        {% if track is defined %}
+            <p> {{track.id}} - {{track.name}} - {{track.artist}} </p>
+        {% elif tracks is defined %}
+            <ul>
+                {% for track in tracks %}
+                <li> {{track.id}} - {{track.name}} - {{track.artist}} </li>
+                {% endfor %}    
+            </ul>
+        {% else %}
+            <p> Error </p>
+        {% endif %}
+
+    {% elif method == 'PUT' %}
+        <p>Added: {{track.name}} by {{track.artist}}</p>
+
+    {% elif method == 'DELETE' %}
+        {% if track is defined %}
+            <p> Deleted: {{track.id}} - {{track.name}} - {{track.artist}} </p>
+        {% else %}
+            <p> The Track table of the database was successfully cleared. </p>
+        {% endif %}
+    {% endif %}
+</body>
+</html>
