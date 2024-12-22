@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
@@ -18,22 +18,6 @@ db.init_app(app)
 with app.app_context():
     db.create_all()
 
-@app.delete("/tracks")
-def clear_tracks():
-    """Clears the Track database from all its entries.
-
-    Returns
-    -------
-    str 
-        an HTML display text.
-    """
-
-    try:
-        db.drop_all()
-        return "<p> The Track table of the database was successfully cleared. </p>"
-    except Exception as e:
-        return str(e)
-
 @app.get("/tracks")
 def list_tracks():
     """Lists all tracks from the Track table of the database. 
@@ -46,11 +30,7 @@ def list_tracks():
 
     try:
         tracks = Track.query.all()
-        track_list = "<ul> "
-        for track in tracks:
-            track_list = track_list + "<li>" + str(track.id) + " - " + track.name + " by " + track.artist + "</li>" 
-        track_list = track_list + "</ul>"
-        return track_list
+        return render_template('tracks.html', tracks=tracks, method=request.method)
     except Exception as e:
         return str(e)
     
@@ -69,9 +49,9 @@ def get_track(id):
         an HTML display text.
     """
 
-    try:
+    try:    
         track = db.session.execute(db.select(Track).filter_by(id=id)).scalar_one()
-        return "<p>" + str(track.id) + " - " + track.name + " by " + track.artist + "</p>" 
+        return render_template('tracks.html', track=track, method=request.method)
     except Exception as e:
         return str(e)
 
@@ -94,7 +74,7 @@ def upload_track():
         )
         db.session.add(track)
         db.session.commit()
-        return "<p> Added: " + track.name + " by " + track.artist + "</p>" 
+        return render_template("tracks.html", track=track, method=request.method)
     except Exception as e:
         return str(e)
 
@@ -118,7 +98,23 @@ def delete_track(id):
         track = db.session.get(Track, id)
         db.session.delete(track)
         db.session.commit()
-        return "<p> Deleted: " + str(track.id) + " - " + track.name + " by " + track.artist + "</p>"
+        return render_template("tracks.html", track=track, method=request.method)
+    except Exception as e:
+        return str(e)
+
+@app.delete("/tracks")
+def clear_tracks():
+    """Clears the Track database from all its entries.
+
+    Returns
+    -------
+    str 
+        an HTML display text.
+    """
+
+    try:
+        db.drop_all()
+        return render_template("tracks.html", method=request.method)
     except Exception as e:
         return str(e)
     
