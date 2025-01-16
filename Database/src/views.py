@@ -1,24 +1,10 @@
-from flask import Flask, request, render_template
-from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
+from flask import Blueprint, request, render_template
+from src import db
+from src.models import Track
 
-class Base(DeclarativeBase):
-    pass
-db = SQLAlchemy(model_class=Base)
+main = Blueprint('main', __name__)
 
-class Track(db.Model):
-    id: Mapped[int] = mapped_column(primary_key=True)
-    name: Mapped[str] = mapped_column(unique=False)
-    artist: Mapped[str] = mapped_column(unique=False)
-
-app = Flask(__name__)
-app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///database.db"
-db.init_app(app)
-
-with app.app_context():
-    db.create_all()
-
-@app.get("/tracks")
+@main.get("/tracks")
 def list_tracks():
     """Lists all tracks from the Track table of the database. 
 
@@ -27,14 +13,13 @@ def list_tracks():
     str 
         an HTML display text.
     """
-
     try:
         tracks = Track.query.all()
         return render_template('tracks.html', tracks=tracks, method=request.method)
     except Exception as e:
         return str(e)
     
-@app.get("/tracks/<int:id>")
+@main.get("/tracks/<int:id>")
 def get_track(id):
     """Gets a specific track from the Track table of the database.
 
@@ -55,7 +40,7 @@ def get_track(id):
     except Exception as e:
         return str(e)
 
-@app.put("/tracks")
+@main.post("/tracks")
 def upload_track():
     """Uploads a track to the Track table of the database with the data provided 
     alongside the PUT request. 
@@ -67,10 +52,11 @@ def upload_track():
     """
 
     try:
-        parameters = request.get_json()
+        artist = request.form["artist"]
+        name = request.form["name"]
         track = Track(
-            name=parameters['name'],
-            artist=parameters['artist']
+            name=name,
+            artist=artist
         )
         db.session.add(track)
         db.session.commit()
@@ -79,7 +65,7 @@ def upload_track():
         return str(e)
 
 
-@app.delete("/tracks/<int:id>")
+@main.delete("/tracks/<int:id>")
 def delete_track(id):
     """Deletes a specific track from the Track table of the database. 
 
@@ -102,7 +88,7 @@ def delete_track(id):
     except Exception as e:
         return str(e)
 
-@app.delete("/tracks")
+@main.delete("/tracks")
 def clear_tracks():
     """Clears the Track database from all its entries.
 
@@ -118,9 +104,7 @@ def clear_tracks():
     except Exception as e:
         return str(e)
     
-@app.route("/")
+@main.route("/")
 def index():
     return "<p>Hello, world!</p>"
-
-if __name__ == "__main__":
-    app.run(debug=True)
+    
