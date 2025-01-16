@@ -1,0 +1,138 @@
+/* Global style configurations */
+html, body{
+    height: 100%;
+}
+:focus{
+    outline: none !important;
+}
+a{
+    text-decoration: none;
+}
+
+
+/* MAIN PAGE DIVISIONS: GLOBAL RELATIVE POSITIONS AND DISPLAY STYLE CONFIGURATIONS*/
+#search{
+    position: fixed;
+    top: 5%;
+    left: 5%;
+
+    width: 90%;
+    height: 20%;
+
+    margin: auto;
+
+    z-index: 1;
+}
+
+#tracks{
+    position: relative;
+    top: 25%;
+
+    height: 20%;
+    width: 90%;
+
+    margin: auto;
+
+    color: orange;
+
+    text-align: center;
+}
+
+#upload{
+    position: relative;
+    top: 25%;
+
+    width: 90%;
+    height: 20%;
+
+    margin: auto;
+
+    text-align: center;
+
+    color: orange;
+}
+
+
+/* 'Header - Search Bar' Division */
+#title{
+    height: 40%;
+    width: 100%;
+
+    margin: auto;
+
+    text-align: center;
+}
+#titleLink{
+    color: orange;
+}
+#searchBar{
+    height: 30%;
+    width: 100%;
+
+    margin: auto;
+
+    font-size: 100%;
+    text-align: center;
+    
+    color: black;  
+    background-color: white;
+
+    border-style: solid;
+    border-width: 2px;
+    border-radius: 15px;
+    border-color: orange;
+
+    transition-duration: 0.2s;
+}
+#searchBar:hover{
+    box-shadow: 0 6px 8px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+/* 'Tracks' Division */
+.trackTitle{
+    width: 100%;
+    color: orange;
+}
+#trackList{
+    width: 100%;
+
+    margin: 0;
+    padding: 0;
+    justify-content: center;
+
+    list-style-type: none;
+}
+.trackItem{
+    color: black;
+    text-align: center;
+}
+
+
+/* 'Upload' Division */
+.uploadInput{
+    width: 50%;
+    height: 30px;
+
+    text-align: center;
+
+    color: black;
+    background-color: white;
+
+    border-style: solid;
+}
+.uploadSubmit{
+    width: 10%;
+    height: 40px;
+
+    border: none;
+    border-radius: 30px;
+
+    color: white;    
+    background-color: orange;
+
+    transition-duration: 0.2s;
+}
+.uploadSubmit:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
