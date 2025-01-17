@@ -1,5 +1,6 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from base64 import b64encode
 
 # Initialise database
 db = SQLAlchemy()
@@ -23,10 +24,18 @@ def create_app():
 
     # Checks if an instance of the database already exists.
     with app.app_context():
+        db.drop_all()
         db.create_all()
 
     # Point to the routes in the views file. 
     from src.views import main
     app.register_blueprint(main)
+
+    # Setting up a new filter for jinja to decode base64 images in HTML files. TO BE PUT IN AN extensions.py FILE IN THE FUTURE WITH OTHER EXTENSIONS AND CONFIG COMMANDS.
+    @app.template_filter('to_base64')
+    def to_base64_filter(binary_data):
+        return b64encode(binary_data).decode('utf-8')
+
+    app.jinja_env.filters['to_base64'] = to_base64_filter
 
     return app

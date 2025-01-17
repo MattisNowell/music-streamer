@@ -23,7 +23,7 @@
             <h2 class="trackTitle">All Tracks:</h2>
                 <ul id="trackList">
                     {% for track in tracks %}
-                    <li class="trackItem"> {{track.id}} - {{track.name}} - {{track.artist}} </li>
+                    <li class="trackItem"> <img src="data:image/jpeg;base64, {{ track.cover | to_base64 }}"> {{track.name}} - {{track.artist}} </li>
                     {% endfor %}    
                 </ul>
         {% else %}
@@ -47,10 +47,28 @@
 
     <div id="upload">
         <h2 id="uploadTitle">Upload!</h2>
-        <form id="uploadForm" action="/tracks" method="post">
-            <input class="uploadInput" id="uploadArtist" type="text" id="artist" name="artist" placeholder="Artist Name"><br><br>
-            <input class="uploadInput" id="uploadName" type="text" id="name" name="name" placeholder="Track Name"><br><br>
-            <input id="uploadSubmit" type="submit" value="UPLOAD">
+        <form id="uploadForm" action="/tracks" method="post" enctype="multipart/form-data">
+
+            <input class="uploadInput" id="uploadArtist" type="text" name="artist" placeholder="Artist Name"><br><br>
+            <input class="uploadInput" id="uploadName" type="text" name="name" placeholder="Track Name"><br><br>
+
+            <div id="uploadDate">
+                <label for="date">Release Date:</label>
+                <input type="date" name="release_date">
+            </div>
+
+            <label for="uploadData" id="customUploadData">
+                Upload MP3      
+            </label>
+            <input id="uploadData" type="file" name="data" value="data">
+
+            <label for="uploadCover" id="customUploadCover">
+                Upload Cover
+            </label>
+            <input id="uploadCover" type="file" name="cover" value="cover">
+
+            <input id="uploadSubmit" type="submit" value="SUBMIT">
+
         </form> 
     </div>
     
