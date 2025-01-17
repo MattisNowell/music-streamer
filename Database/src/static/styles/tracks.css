@@ -19,7 +19,7 @@ a{
     left: 5%;
 
     width: 90%;
-    height: 13%;
+    height: 15%;
 
     margin: 0;
 
@@ -47,7 +47,7 @@ a{
     left: 5%;
 
     width: 90%;
-    height: 30%;
+    height: 50%;
 
     margin: 0;
 
@@ -65,7 +65,9 @@ a{
 
     margin: 0;
 
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 #titleLink{
     color: orange;
@@ -103,6 +105,10 @@ a{
 
     margin: 0;
 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
     color: orange;
 }
 
@@ -128,19 +134,21 @@ a{
     position: absolute;
     top: 0%;
 
-    height: 20%;
+    height: 15%;
     width: 100%;
 
     margin: 0;
 
-    text-align: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 #uploadForm{
     position: absolute;
-    top: 20%;
+    top: 15%;
 
-    height: 80%;
+    height: 85%;
     width: 100%;
 }
 .uploadInput{
@@ -148,7 +156,7 @@ a{
     left: 32.5%;
 
     width: 35%;
-    height: 20%;
+    height: 15%;
 
     padding: 0;
 
@@ -166,15 +174,42 @@ a{
     top: 0%;
 }
 #uploadName{
+    top: 20%;
+}
+#customUploadData{
+    position: absolute;
     top: 40%;
+    left: 45%;
+
+    width: 10%;
+    height: 15%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    color: white;
+
+    background-color: orange;
+
+    border: none;
+    border-radius: 30px;
+
+    transition-duration: 0.2s;
+}
+.customUploadData:hover{
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+#uploadData{
+    display: none;
 }
 #uploadSubmit{
     position: absolute;
     left: 45%;
-    top: 80%;
+    top: 60%;
     
     width: 10%;
-    height: 20%;
+    height: 15%;
 
     color: white;    
     background-color: orange;

@@ -47,10 +47,18 @@
 
     <div id="upload">
         <h2 id="uploadTitle">Upload!</h2>
-        <form id="uploadForm" action="/tracks" method="post">
-            <input class="uploadInput" id="uploadArtist" type="text" id="artist" name="artist" placeholder="Artist Name"><br><br>
-            <input class="uploadInput" id="uploadName" type="text" id="name" name="name" placeholder="Track Name"><br><br>
-            <input id="uploadSubmit" type="submit" value="UPLOAD">
+        <form id="uploadForm" action="/tracks" method="post" enctype="multipart/form-data">
+
+            <input class="uploadInput" id="uploadArtist" type="text" name="artist" placeholder="Artist Name"><br><br>
+            <input class="uploadInput" id="uploadName" type="text" name="name" placeholder="Track Name"><br><br>
+
+            <label for="uploadData" id="customUploadData">
+                Upload MP3      
+            </label>
+            <input id="uploadData" type="file" name="data" value="data">
+
+            <input id="uploadSubmit" type="submit" value="SUBMIT">
+
         </form> 
     </div>
     

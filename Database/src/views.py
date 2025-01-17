@@ -42,8 +42,7 @@ def get_track(id):
 
 @main.post("/tracks")
 def upload_track():
-    """Uploads a track to the Track table of the database with the data provided 
-    alongside the PUT request. 
+    """Uploads a track to the Track table of the database with the data provided in the upload form. 
 
     Returns
     -------
@@ -54,14 +53,20 @@ def upload_track():
     try:
         artist = request.form["artist"]
         name = request.form["name"]
+
+        data_file = request.files["data"]
+        data = data_file.read()
+
         track = Track(
             name=name,
-            artist=artist
+            artist=artist,
+            data=data
         )
         db.session.add(track)
         db.session.commit()
         return render_template("tracks.html", track=track, method=request.method)
     except Exception as e:
+        db.session.rollback()
         return str(e)
 
 
@@ -86,6 +91,7 @@ def delete_track(id):
         db.session.commit()
         return render_template("tracks.html", track=track, method=request.method)
     except Exception as e:
+        db.session.rollback()
         return str(e)
 
 @main.delete("/tracks")
