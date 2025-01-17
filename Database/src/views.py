@@ -1,6 +1,7 @@
 from flask import Blueprint, request, render_template
 from src import db
 from src.models import Track
+from datetime import date
 
 main = Blueprint('main', __name__)
 
@@ -53,14 +54,20 @@ def upload_track():
     try:
         artist = request.form["artist"]
         name = request.form["name"]
+        release_date = date.fromisoformat(request.form["release_date"])
 
         data_file = request.files["data"]
         data = data_file.read()
 
+        cover_file = request.files["cover"]
+        cover = cover_file.read()
+
         track = Track(
             name=name,
             artist=artist,
-            data=data
+            data=data,
+            cover = cover,
+            release_date = release_date
         )
         db.session.add(track)
         db.session.commit()
