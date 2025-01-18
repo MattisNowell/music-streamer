@@ -1,4 +1,5 @@
-from flask import Blueprint, request, render_template
+import base64
+from flask import Blueprint, request, render_template, jsonify
 from src import db
 from src.models import Track
 from datetime import date
@@ -11,14 +12,29 @@ def list_tracks():
 
     Returns
     -------
-    str 
-        an HTML display text.
+    JSON or HTML 
+        JSON response if requested, otherwise renders an HTML template.
     """
     try:
         tracks = Track.query.all()
+        
+        if request.headers.get("Accept") == "application/json" or request.args.get("format") == "json":
+            tracks_data = [
+                {
+                    "id": track.id,
+                    "name": track.name,
+                    "artist": track.artist,
+                    "data": base64.b64encode(track.data).decode('utf-8') if track.data else None,
+                    "cover": base64.b64encode(track.cover).decode('utf-8') if track.cover else None,
+                    "release_date": track.release_date.isoformat() if track.release_date else None
+                } for track in tracks                           
+            ]
+            
+            return jsonify(tracks_data), 200
+        
         return render_template('tracks.html', tracks=tracks, method=request.method)
     except Exception as e:
-        return str(e)
+        return {"error": str(e)}, 500
     
 @main.get("/tracks/<int:id>")
 def get_track(id):
@@ -37,6 +53,17 @@ def get_track(id):
 
     try:    
         track = db.session.execute(db.select(Track).filter_by(id=id)).scalar_one()
+        
+        if request.headers.get("Accept") == "application/json" or request.args.get("format") == "json":
+            return jsonify ({
+                "id": track.id,
+                "name": track.name,
+                "artist": track.artist,
+                "data": base64.b64encode(track.data).decode('utf-8') if track.data else None,
+                "cover": base64.b64encode(track.cover).decode('utf-8') if track.cover else None,
+                "release_date": track.release_date.isoformat() if track.release_date else None
+            }), 200
+        
         return render_template('tracks.html', track=track, method=request.method)
     except Exception as e:
         return str(e)
@@ -74,7 +101,7 @@ def upload_track():
         return render_template("tracks.html", track=track, method=request.method)
     except Exception as e:
         db.session.rollback()
-        return str(e)
+        return {"error": str(e)}, 500
 
 
 @main.delete("/tracks/<int:id>")
@@ -99,7 +126,7 @@ def delete_track(id):
         return render_template("tracks.html", track=track, method=request.method)
     except Exception as e:
         db.session.rollback()
-        return str(e)
+        return {"error": str(e)}, 500
 
 @main.delete("/tracks")
 def clear_tracks():
@@ -115,7 +142,7 @@ def clear_tracks():
         db.drop_all()
         return render_template("tracks.html", method=request.method)
     except Exception as e:
-        return str(e)
+        return {"error": str(e)}, 500
     
 @main.route("/")
 def index():
