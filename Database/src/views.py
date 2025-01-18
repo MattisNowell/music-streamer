@@ -47,8 +47,8 @@ def get_track(id):
 
     Returns
     -------
-    str 
-        an HTML display text.
+    JSON or HTML 
+        JSON response if requested, otherwise renders an HTML template.
     """
 
     try:    
