@@ -1,6 +1,5 @@
 from flask import Blueprint, request, render_template
-from src import db
-from src.models import Track
+from src import db, Track
 from datetime import date
 
 main = Blueprint('main', __name__)

@@ -1,9 +1,11 @@
 from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
+from Common.track import create_track_model
 from base64 import b64encode
 
 # Initialise database
 db = SQLAlchemy()
+Track = create_track_model(db)
 
 def create_app():
     """Creates the database microservice's flask app with its configuration, initialises the database's tables,  
@@ -19,8 +21,6 @@ def create_app():
     app.config["SQLALCHEMY_DATABASE_URI"]="sqlite:///database.db"
 
     db.init_app(app)
-
-    from src import models
 
     # Checks if an instance of the database already exists.
     with app.app_context():
