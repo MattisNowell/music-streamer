@@ -17,13 +17,18 @@
     <div id="tracks">
     {% if method == 'GET'%}
         {% if track is defined %}
-            <h2 class="trackTitle">Track:</h2>
-                <p> {{track.id}} - {{track.name}} - {{track.artist}} </p>
+                <div id="trackCover">
+                    <img src="data:image/jpeg;base64, {{ track.cover | to_base64 }}"> <br>
+                </div>
+                <div id="trackInfo">
+                    <h2> {{track.name}} by {{track.artist}}</h2>
+                    <p> Released on {{track.release_date}} </p>
+                </div>
         {% elif tracks is defined %}
             <h2 class="trackTitle">All Tracks:</h2>
                 <ul id="trackList">
                     {% for track in tracks %}
-                    <li class="trackItem"> <img src="data:image/jpeg;base64, {{ track.cover | to_base64 }}"> {{track.name}} - {{track.artist}} </li>
+                    <li class="trackItem"> <img src="data:image/jpeg;base64, {{ track.cover | to_base64 }}"> <a href="{{ url_for('main.get_track', id=track.id) }}"> {{track.name}} - {{track.artist}} </a></li>
                     {% endfor %}    
                 </ul>
         {% else %}
