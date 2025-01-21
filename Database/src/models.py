@@ -4,7 +4,7 @@ from datetime import date
 from src import db
 
 class Track(db.Model):
-    __tablename__ = "tracks"
+    __tablename__ = "track"
 
     id: Mapped[int] = mapped_column(primary_key=True)
     name: Mapped[str] = mapped_column(unique=False)

@@ -1,0 +1,19 @@
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>Login</title>
+        <link rel="stylesheet" href="{{ url_for('static',filename='styles/login.css') }}" />
+    </head>    
+    <body>
+
+    <h1 style="color: red;"> {{ error }} </h1>
+    <div>
+        <form action="/login" method="post" enctype="multipart/form-data">
+            <p> {{ form.csrf_token }} </p>
+            <p>{{ form.email.label }} {{ form.email() }}</p> 
+            <p>{{ form.password.label }} {{ form.password() }}</p> 
+            <p>{{ form.submit() }}</p> 
+        </form>
+    </div>
+    </body>
+</html>

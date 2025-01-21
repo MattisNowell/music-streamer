@@ -1,0 +1,19 @@
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+    <link rel="stylesheet" href="{{ url_for('static',filename='styles/register.css') }}" />
+</head>    
+<body>
+<div>
+    <form action="/register" method="post" enctype="multipart/form-data">
+        <p> {{ form.csrf_token }} </p>
+        <p>{{ form.username.label }} {{ form.username() }}</p> 
+        <p>{{ form.email.label }} {{ form.email() }}</p> 
+        <p>{{ form.password.label }} {{ form.password() }}</p> 
+        <p>{{ form.confirm_password.label }} {{ form.confirm_password() }}</p> 
+        <p>{{ form.submit() }}</p> 
+    </form> 
+</div>
+</body>
+</html>
