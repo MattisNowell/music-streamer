@@ -6,5 +6,9 @@ app = Flask(__name__)
 def index():
     return "<p>Hello, world!</p>"
 
+@app.route("/playlist/create")
+def create():
+    return ""
+
 if __name__ == "__main__":
     app.run(debug=True)
