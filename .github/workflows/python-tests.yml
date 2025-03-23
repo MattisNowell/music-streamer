@@ -21,9 +21,32 @@ jobs:
       - name: Configure Poetry
         run: echo "$HOME/.poetry/bin" >> $GITHUB_PATH
 
-      - name: Install dependencies
-        run: poetry install --no-interaction
+      - name: Install dependencies for Account
+        run: | 
+            cd Account
+            poetry install --no-interaction
 
-      - name: Run tests
-        run: poetry run pytest test/
+      - name: Run tests for Account
+        run: | 
+            cd Account
+            poetry run pytest test
 
+      - name: Install dependencies for Player
+        run: | 
+            cd Player
+            poetry install --no-interaction
+
+      - name: Run tests for Player
+        run: | 
+            cd Player
+            poetry run pytest test
+
+      - name: Install dependencies for Playlist
+        run: | 
+            cd Playlist
+            poetry install --no-interaction
+
+      - name: Run tests for Playlist
+        run: | 
+            cd Playlist
+            poetry run pytest test
